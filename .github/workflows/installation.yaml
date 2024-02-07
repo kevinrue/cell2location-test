@@ -16,6 +16,13 @@ jobs:
 
     steps:
 
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Conda list
+        shell: pwsh
+        run: tree
+
       - uses: conda-incubator/setup-miniconda@v3
         with:
           auto-update-conda: true
@@ -30,13 +37,13 @@ jobs:
         shell: pwsh
         run: conda list
 
-      - name: Inst
+      - name: Install cell2location
         shell: bash -el {0}
         run:  |
           conda activate cell2loc_env
           pip install cell2location[tutorials]
 
       - name: Test cell2location
+        shell: bash -el {0}
         run: |
-          import cell2location
-        shell: python
+          python test-import.py
